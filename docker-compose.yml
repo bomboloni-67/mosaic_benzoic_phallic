@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # 1. Database Service
+  postgres:
+    image: postgres:17
+    container_name: library-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - library_data:/var/lib/postgresql/data
+
+  # 2. Your Java Website Service
+  app:
+    image: library-app:latest
+    container_name: library-website
+    build:
+      context: ./demo # This points to the folder containing your Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      # This overrides the application.yaml settings
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASS}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    restart: on-failure
+
+volumes:
+  library_data:
