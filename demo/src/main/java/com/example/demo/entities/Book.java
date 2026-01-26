@@ -13,6 +13,16 @@ public class Book extends BasicEntity {
     private String description;
     private boolean available = true;
 
+    public Book() {}
+
+    public Book(String title, String author, String isbn, String description, boolean available) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.description = description;
+        this.available = available;
+    }
+
     public String getTitle() {
         return title;
     }

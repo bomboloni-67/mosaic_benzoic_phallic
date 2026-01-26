@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -22,13 +23,24 @@ public class Customer extends BasicEntity {
     private String phoneNumber;
     
     @ManyToMany
-    private List<Book> currentlyBorrowedBooks;
+    private List<Book> currentlyBorrowedBooks = new ArrayList<>();
 
     @OneToMany(mappedBy="customer", cascade= CascadeType.ALL)
-    private List<Visit> visitHistory;
+    private List<Visit> visitHistory = new ArrayList<>(); 
 
     @Column(nullable = false)
     private String password;
+
+    public Customer() {}
+
+    public Customer(String name, String email, String phoneNumber, String password, List<Book> currentlyBorrowedBooks, List<Visit> visitHistory) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.currentlyBorrowedBooks = currentlyBorrowedBooks;
+        this.visitHistory = visitHistory;
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

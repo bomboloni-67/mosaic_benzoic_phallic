@@ -28,9 +28,7 @@
                 <td th:text="${book.author}"></td>
                 <td th:text="${book.isbn}"></td>
                 <td>
-                    <td>
-                        <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-sm btn-info">Details</a>
-                    </td>
+                    <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-sm btn-info">Details</a>
                 </td>
             </tr>
         </tbody>

@@ -11,6 +11,16 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Visit extends BasicEntity {
 
+    public Visit() {}
+
+    public Visit(Customer customer, Librarian librarian, LocalDateTime visitTime, List<Book> returnedBooks, List<Book> borrowedBooks) {
+        this.customer = customer;
+        this.librarian = librarian;
+        this.visitTime = visitTime;
+        this.returnedBooks = returnedBooks;
+        this.borrowedBooks = borrowedBooks;
+    }
+
     @ManyToOne()
     @JoinColumn(name ="customer_id")
     private Customer customer;

@@ -19,6 +19,16 @@ public class Librarian extends BasicEntity {
     @Column(nullable = false)
     private String password;
 
+    
+    public Librarian() {}
+
+    public Librarian(String name, String email, String phoneNumber, String password) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
