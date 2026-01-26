@@ -15,7 +15,7 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
 
-    // Route: GET /books
+    // Route: GET /books (List all books)
     @GetMapping
     public String listBooks(Model model) {
         model.addAttribute("books", bookRepository.findAll());
@@ -50,5 +50,13 @@ public class BookController {
     public String deleteBook(@PathVariable("id") Long id) {
         bookRepository.deleteById(id);
         return "redirect:/books";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditBookForm(@PathVariable("id") Long id, Model model) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+        model.addAttribute("book", book);
+        return "edit-book";
     }
 }

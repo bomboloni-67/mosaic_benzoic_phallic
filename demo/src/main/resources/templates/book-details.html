@@ -23,7 +23,7 @@
             </div>
             <div class="card-footer">
                 <a href="/books" class="btn btn-secondary">Back to List</a>
-                <button class="btn btn-warning">Edit Book</button>
+                <a th:href="@{/books/edit/{id}(id=${book.id})}" class="btn btn-warning">Edit Book</a>
             </div>
         </div>
     </div>

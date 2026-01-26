@@ -19,6 +19,7 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th>ISBN</th>
+                <th>Available</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,6 +28,8 @@
                 <td th:text="${book.title}"></td>
                 <td th:text="${book.author}"></td>
                 <td th:text="${book.isbn}"></td>
+                <td>
+                    <span th:text="${book.available} ? 'Yes' : 'No'"></span>
                 <td>
                     <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-sm btn-info">Details</a>
                 </td>

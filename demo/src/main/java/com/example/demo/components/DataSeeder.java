@@ -37,20 +37,18 @@ public class DataSeeder implements CommandLineRunner {
             Book book5 = new Book("Majestic Fantastic Four","Stan Lee", "481203423-4821", "The rise of the mighty Fantastic Four",false);
             Book book6 = new Book("Kronos vs Thanos", "Stephen King", "102934812348", "An epic tale of two gods", false);
             bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5, book6));
-        }
+            if (customerRepository.count() == 0) {
+                Customer customer1 = new Customer("Alice", "alice@test.com", "123456", "pass123", new ArrayList<>(), new ArrayList<>());
+                Customer customer2 = new Customer("Bob", "bob@test.com", "789012", "pass456", new ArrayList<>(), new ArrayList<>());
+                Customer customer3 = new Customer("Charlie", "charlie@test.com", "345678", "pass789", new ArrayList<>(), new ArrayList<>());
+                customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3));
+                if (librarianRepository.count() == 0) {
+                    Librarian librarian1 = new Librarian("Admin", "admin@test.com", "000000", "adminpass");
+                    Librarian librarian2 = new Librarian("Polly", "polly@test.com", "111111", "pollypass");
+                    librarianRepository.saveAll(Arrays.asList(librarian1, librarian2));
+                }
+            }
 
-        // Seed Customers
-        if (customerRepository.count() == 0) {
-            Customer customer1 = new Customer("Alice", "alice@test.com", "123456", "pass123", new ArrayList<>(), new ArrayList<>());
-            Customer customer2 = new Customer("Bob", "bob@test.com", "789012", "pass456", new ArrayList<>(), new ArrayList<>());
-            Customer customer3 = new Customer("Charlie", "charlie@test.com", "345678", "pass789", new ArrayList<>(), new ArrayList<>());
-            customerRepository.saveAll(Arrays.asList(customer1, customer2, customer3));
-        }
-
-        if (librarianRepository.count() == 0) {
-            Librarian librarian1 = new Librarian("Admin", "admin@test.com", "000000", "adminpass");
-            Librarian librarian2 = new Librarian("Polly", "polly@test.com", "111111", "pollypass");
-            librarianRepository.saveAll(Arrays.asList(librarian1, librarian2));
         }
     }
 }
