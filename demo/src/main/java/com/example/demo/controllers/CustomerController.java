@@ -84,4 +84,16 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         return "edit-customer";
     }
+
+    @PostMapping("/update/{id}")
+    public String updateCustomer(@PathVariable("id") Long id, @ModelAttribute Customer updatedCustomer){
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
+        customer.setName(updatedCustomer.getName());
+        customer.setEmail(updatedCustomer.getEmail());
+        customer.setPhoneNumber(updatedCustomer.getPhoneNumber());
+        customer.setCurrentlyBorrowedBooks(customer.getCurrentlyBorrowedBooks());
+        customerRepository.save(customer);
+        return "redirect:/customers/" + id;
+    }
 }
