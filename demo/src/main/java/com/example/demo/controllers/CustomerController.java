@@ -76,4 +76,12 @@ public class CustomerController {
                 })
                 .toList();
     }
+
+    @GetMapping("/edit/{id}")
+    public String showEditCustomerForm(@PathVariable("id") Long id, Model model){ 
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
+        model.addAttribute("customer", customer);
+        return "edit-customer";
+    }
 }
