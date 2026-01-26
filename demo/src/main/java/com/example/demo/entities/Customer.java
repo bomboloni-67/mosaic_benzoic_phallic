@@ -1,7 +1,12 @@
 package com.example.demo.entities;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,11 +20,16 @@ public class Customer extends BasicEntity {
     private String email;
 
     private String phoneNumber;
+    
+    @ManyToMany
+    private List<Book> currentlyBorrowedBooks;
+
+    @OneToMany(mappedBy="customer", cascade= CascadeType.ALL)
+    private List<Visit> visitHistory;
 
     @Column(nullable = false)
     private String password;
 
-    // Getters and Setters (with the getPassword fix)
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
@@ -31,4 +41,10 @@ public class Customer extends BasicEntity {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public List<Book> getCurrentlyBorrowedBooks() { return currentlyBorrowedBooks; }
+    public void setCurrentlyBorrowedBooks(List<Book> currentlyBorrowedBooks) {this.currentlyBorrowedBooks = currentlyBorrowedBooks;}
+
+    public List<Visit> getVisitHistory() { return visitHistory; }
+    public void setVisitHistory(List<Visit> visitHistory) { this.visitHistory = visitHistory; }
 }
