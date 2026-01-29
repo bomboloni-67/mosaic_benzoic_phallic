@@ -1,12 +1,25 @@
-# 1. Use a lightweight Java runtime as the base
-FROM eclipse-temurin:17-jre-alpine
-
-# 2. Create a directory inside the container for our app
+# --- STAGE 1: Build the Application ---
+FROM maven:3.9-eclipse-temurin-17-alpine AS build
 WORKDIR /app
 
-# 3. Copy the 'fat jar' from your target folder into the container
-# Note: The name must match what you see in your 'target' folder
-COPY target/demo-0.0.1-SNAPSHOT.jar library.jar
+# 1. Copy only the pom.xml first to cache dependencies (speeds up future builds)
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# 4. Tell the container to run the jar file when it starts
-ENTRYPOINT ["java", "-jar", "library.jar"]
+# 2. Copy the source code and build the fat jar
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# --- STAGE 2: Run the Application ---
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+
+# 3. Copy the jar from the "build" stage to this final image
+# Note: Use a wildcard (*) if you're not sure of the exact filename
+COPY --from=build /app/target/*.jar library.jar
+
+# 4. Expose the port your app runs on (Render uses this to route traffic)
+EXPOSE 8080
+
+# 5. Optimized entrypoint for cloud environments
+ENTRYPOINT ["java", "-Xmx512m", "-jar", "library.jar"]
